@@ -1,0 +1,23 @@
+@use '../../../variables' as *;
+
+.event-chip {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+
+  &__title {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__time {
+    opacity: 0.8;
+  }
+}

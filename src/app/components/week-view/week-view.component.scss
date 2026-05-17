@@ -1,0 +1,127 @@
+@use '../../../variables' as *;
+
+.week-view {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+
+  &__stickyheader {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: $color-bg-dark;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    color: $color-text;
+
+    button {
+      padding: 0.5rem;
+      border-radius: 9999px;
+      background: none;
+      border: none;
+      color: $color-text;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #374151; // gray-700
+      }
+    }
+  }
+
+  &__day-headers {
+    display: flex;
+    background-color: $color-bg-medium;
+    border-bottom: 1px solid $color-border;
+    border-radius: 1.5rem 1.5rem 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    &__placeholder {
+      width: 64px;
+      flex-shrink: 0;
+    }
+
+    &__day {
+      flex: 1;
+      height: $day-header-height;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-width: 96px;
+    }
+  }
+
+  &__grid {
+    display: flex;
+    flex: 1;
+    overflow-y: auto;
+
+    &__hour-col {
+      width: 64px;
+      flex-shrink: 0;
+      background-color: $color-bg-medium;
+      border-right: 1px solid $color-border;
+      // otherwise 100dvh limits the height...
+      height: max-content;
+
+      &__cell {
+        height: $hour-height;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        padding: 0.25rem 0.5rem 0 0;
+        font-size: 0.75rem;
+        color: $color-text;
+      }
+    }
+
+    &__day-col {
+      flex: 1;
+      border-right: 1px solid $color-border;
+      min-width: 96px;
+      background-color: $color-bg-medium;
+      position: relative;
+      // otherwise 100dvh limits the height...
+      height: max-content;
+
+      &__cell {
+        height: $hour-height;
+        border-bottom: 1px solid $color-border;
+      }
+
+      &__events {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: calc($hour-height * 24);
+      }
+    }
+  }
+}
+
+.day-number {
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 0.5rem;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text;
+}
+
+.day-name {
+  font-size: 1rem;
+  color: $color-text;
+}

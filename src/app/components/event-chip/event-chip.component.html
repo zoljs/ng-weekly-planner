@@ -1,0 +1,9 @@
+<div
+  class="event-chip"
+  [style.top]="getTopPercent() + '%'"
+  [style.height]="getHeightPercent() + '%'"
+  [style.backgroundColor]="event.color"
+>
+  <p class="event-chip__title">{{ event.title }}</p>
+  <p class="event-chip__time">{{ event.startTime }} – {{ event.endTime }}</p>
+</div>

@@ -1,0 +1,12 @@
+@use "variables" as *;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
+
+html,
+body,
+app-root {
+  font-family: 'DM Sans', sans-serif;
+  height: 100%;
+  margin: 0;
+  display: block;
+  background-color: #131313;
+}
