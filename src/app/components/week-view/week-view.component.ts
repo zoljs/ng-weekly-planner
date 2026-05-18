@@ -2,10 +2,12 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { EventService } from '../../services/event.service';
 import { DatePipe, NgClass } from '@angular/common';
 import { EventChip } from '../event-chip/event-chip.component';
+import { EventModal } from '../event-modal/event-modal';
+import { CalendarEvent } from '../../models/event.model';
 
 @Component({
   selector: 'app-week-view',
-  imports: [DatePipe, EventChip],
+  imports: [DatePipe, EventChip, EventModal],
   templateUrl: './week-view.component.html',
   styleUrl: './week-view.component.scss',
 })
@@ -13,6 +15,17 @@ export class WeekView {
   private eventService = inject(EventService);
 
   currentDate = signal(new Date());
+  modalOpen = signal(false);
+  selectedDate = signal('');
+
+  onEventCreated(event: CalendarEvent) {
+    this.eventService.addEvent(event);
+  }
+
+  openModal(day: Date) {
+    this.selectedDate.set(day.toISOString().split('T')[0]);
+    this.modalOpen.set(true);
+  }
 
   isToday(date: Date): boolean {
     return date.toDateString() === this.currentDate().toDateString();
@@ -33,7 +46,7 @@ export class WeekView {
   });
 
   // index is really useful as 23:00 should be the last label
-  hours = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`);
+  hours = Array.from({ length: 12 }, (_, i) => `${(i + 7).toString().padStart(2, '0')}:00`);
 
   toDateString(date: Date): string {
     return date.toISOString().split('T')[0];

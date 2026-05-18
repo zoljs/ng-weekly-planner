@@ -10,15 +10,19 @@ import { CalendarEvent } from '../../models/event.model';
 export class EventChip {
   @Input() event!: CalendarEvent;
 
+  private readonly START_HOUR = 7;
+  private readonly HOUR_COUNT = 12;
+
   getTopPercent(): number {
     const [h, m] = this.event.startTime.split(':').map(Number);
-    return ((h * 60 + m) / (24 * 60)) * 100;
+    const minutesFromStart = h * 60 + m - this.START_HOUR * 60;
+    return (minutesFromStart / (this.HOUR_COUNT * 60)) * 100;
   }
 
   getHeightPercent(): number {
     const [sh, sm] = this.event.startTime.split(':').map(Number);
     const [eh, em] = this.event.endTime.split(':').map(Number);
     const duration = eh * 60 + em - (sh * 60 + sm);
-    return (duration / (24 * 60)) * 100;
+    return (duration / (this.HOUR_COUNT * 60)) * 100;
   }
 }

@@ -71,10 +71,12 @@
       background-color: $color-bg-medium;
       border-right: 1px solid $color-border;
       // otherwise 100dvh limits the height...
-      height: max-content;
+      height: calc($hour-height * $hours);
 
       &__cell {
         height: $hour-height;
+        border-bottom: 1px solid $color-border;
+        box-sizing: border-box;
         display: flex;
         align-items: flex-start;
         justify-content: flex-end;
@@ -91,11 +93,12 @@
       background-color: $color-bg-medium;
       position: relative;
       // otherwise 100dvh limits the height...
-      height: max-content;
+      height: calc($hour-height * $hours);
 
       &__cell {
         height: $hour-height;
         border-bottom: 1px solid $color-border;
+        box-sizing: border-box;
       }
 
       &__events {
@@ -103,7 +106,7 @@
         top: 0;
         left: 0;
         right: 0;
-        height: calc($hour-height * 24);
+        height: calc($hour-height * $hours);
       }
     }
   }

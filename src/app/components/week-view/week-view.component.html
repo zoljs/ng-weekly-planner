@@ -35,7 +35,7 @@
 
     <!-- Day columns -->
     @for (day of weekDays(); track day) {
-      <div class="week-view__grid__day-col">
+      <div class="week-view__grid__day-col" (click)="openModal(day)">
         @for (hour of hours; track hour) {
           <div class="week-view__grid__day-col__cell"></div>
         }
@@ -47,4 +47,11 @@
       </div>
     }
   </div>
+
+  <!-- we use syntactic sugar instead of writing (isOpenChange)="modalOpen.set($event)", as [()] will automatically update the input with the returned $event value -->
+  <app-event-modal
+    [(isOpen)]="modalOpen"
+    [date]="selectedDate()"
+    (eventCreated)="onEventCreated($event)"
+  />
 </div>

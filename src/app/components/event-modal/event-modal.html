@@ -1,0 +1,78 @@
+@if (isOpen) {
+  <div class="event-modal__backdrop" (click)="close()">
+    <!-- (click)="$event.stopPropagation()" is necessary, otherwise it'll close no matter where you click xd -->
+    <div class="event-modal__container" (click)="$event.stopPropagation()">
+      <p class="event-modal__header">
+        <span class="event-modal__title">New Event</span>
+      </p>
+      <div class="event-modal__body">
+        <form>
+          <p class="event-modal__form-group">
+            <label for="form-title">Title</label>
+            <input
+              id="form-title"
+              name="form-title"
+              placeholder="Title"
+              [(ngModel)]="event.title"
+              type="text"
+            />
+          </p>
+
+          <p class="event-modal__form-group">
+            <label for="form-description">Description</label>
+            <textarea
+              id="form-description"
+              name="form-description"
+              placeholder="Description"
+              [(ngModel)]="event.description"
+            ></textarea>
+          </p>
+
+          <div class="event-modal__time-group">
+            <p class="event-modal__form-group">
+              <label for="form-start-time">Start</label>
+              <input
+                id="form-start-time"
+                name="form-start-time"
+                placeholder="8:00"
+                [(ngModel)]="event.startTime"
+                type="time"
+              />
+            </p>
+
+            <p class="event-modal__form-group">
+              <label for="form-end-time">End</label>
+              <input
+                id="form-end-time"
+                s
+                name="form-end-time"
+                placeholder="8:00"
+                [(ngModel)]="event.endTime"
+                type="time"
+              />
+            </p>
+          </div>
+
+          <p class="event-modal__form-group">
+            <label for="form-color">Color</label>
+            <input id="form-color" name="form-color" [(ngModel)]="event.color" type="color" />
+          </p>
+
+          <p class="event-modal__form-group">
+            <label for="form-recurrence">Recurrence</label>
+            <select id="form-recurrence" name="form-recurrence" [(ngModel)]="event.recurrence">
+              <option value="none">None</option>
+              <option value="weekly">Weekly</option>
+              <option value="biweekly">Biweekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </p>
+        </form>
+      </div>
+      <div class="event-modal__footer">
+        <button [disabled]="!event.title || !event.date" (click)="submit()">Save</button>
+        <button (click)="close()">Cancel</button>
+      </div>
+    </div>
+  </div>
+}
