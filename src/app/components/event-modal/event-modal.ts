@@ -13,10 +13,25 @@ export class EventModal implements OnChanges {
   @Output() isOpenChange = new EventEmitter<boolean>();
   @Input() date = '';
   @Output() eventCreated = new EventEmitter<CalendarEvent>();
+  @Output() eventUpdated = new EventEmitter<CalendarEvent>();
+  @Output() eventDeleted = new EventEmitter<string>();
+  @Input() existingEvent: CalendarEvent | null = null;
 
   // input is not ready when the component is created, we must update it with onChanges
   ngOnChanges() {
-    this.event.date = this.date;
+    if (this.existingEvent) {
+      this.event = { ...this.existingEvent };
+    } else {
+      this.event = {
+        title: '',
+        description: '',
+        date: this.date,
+        startTime: '08:00',
+        endTime: '09:00',
+        color: '#A8C8F9',
+        recurrence: 'none',
+      };
+    }
   }
 
   @HostListener('document:keydown.escape')
@@ -26,7 +41,7 @@ export class EventModal implements OnChanges {
     }
   }
 
-  event = {
+  event: Omit<CalendarEvent, 'id'> = {
     title: '',
     description: '',
     date: this.date,
@@ -37,11 +52,21 @@ export class EventModal implements OnChanges {
   };
 
   submit() {
-    this.eventCreated.emit(this.event as CalendarEvent);
+    if (this.existingEvent) {
+      this.eventUpdated.emit(this.event as CalendarEvent);
+    } else {
+      this.eventCreated.emit(this.event as CalendarEvent);
+    }
     this.close();
   }
 
   close() {
     this.isOpenChange.emit(false);
+  }
+
+  delete() {
+    if (!this.existingEvent) return;
+    this.eventDeleted.emit(this.existingEvent.id);
+    this.close();
   }
 }

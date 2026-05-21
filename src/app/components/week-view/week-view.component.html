@@ -10,7 +10,7 @@
     <!-- Day headers -->
     <div class="week-view__day-headers">
       <div class="week-view__day-headers__placeholder"></div>
-      @for (day of weekDays(); track day) {
+      @for (day of weekDays(); track day.toISOString()) {
         <div class="week-view__day-headers__day">
           <span class="day-name">{{ day | date: 'EEE' }}</span>
           <span
@@ -34,14 +34,17 @@
     </div>
 
     <!-- Day columns -->
-    @for (day of weekDays(); track day) {
+    @for (day of weekDays(); track day.toISOString()) {
       <div class="week-view__grid__day-col" (click)="openModal(day)">
         @for (hour of hours; track hour) {
           <div class="week-view__grid__day-col__cell"></div>
         }
         <div class="week-view__grid__day-col__events">
           @for (event of getEvents(day); track event.id) {
-            <app-event-chip [event]="event" />
+            <app-event-chip
+              [event]="event"
+              (click)="openModal(day, event); $event.stopPropagation()"
+            />
           }
         </div>
       </div>
@@ -53,5 +56,8 @@
     [(isOpen)]="modalOpen"
     [date]="selectedDate()"
     (eventCreated)="onEventCreated($event)"
+    (eventUpdated)="onEventUpdated($event)"
+    (eventDeleted)="onEventDeleted($event)"
+    [existingEvent]="selectedEvent()"
   />
 </div>

@@ -1,9 +1,10 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { EventService } from '../../services/event.service';
-import { DatePipe, NgClass } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { EventChip } from '../event-chip/event-chip.component';
 import { EventModal } from '../event-modal/event-modal';
 import { CalendarEvent } from '../../models/event.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-week-view',
@@ -17,13 +18,31 @@ export class WeekView {
   currentDate = signal(new Date());
   modalOpen = signal(false);
   selectedDate = signal('');
+  selectedEvent = signal<CalendarEvent | null>(null);
+
+  private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    this.eventService.eventsChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      console.log('Events have been updated!');
+    });
+  }
 
   onEventCreated(event: CalendarEvent) {
     this.eventService.addEvent(event);
   }
 
-  openModal(day: Date) {
+  onEventUpdated(event: CalendarEvent) {
+    this.eventService.updateEvent(event);
+  }
+
+  onEventDeleted(id: string) {
+    this.eventService.deleteEvent(id);
+  }
+
+  openModal(day: Date, event?: CalendarEvent) {
     this.selectedDate.set(day.toISOString().split('T')[0]);
+    this.selectedEvent.set(event ?? null);
     this.modalOpen.set(true);
   }
 
